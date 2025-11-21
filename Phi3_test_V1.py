@@ -6,7 +6,7 @@ import torch
 
 # Navnet på den model vi bruger
 model_id = "microsoft/Phi-3-mini-4k-instruct" # En LLM model udviklet af microsoft. Har ca. 3.8B parametre, optimeret til inference på GPU, trænet til samtaler og instruktioner. Kommer fra Hugging Face Modelhub
-# https://huggingface.co/microsoft/Phi-3-mini-4k-instruct?utm_source=chatgpt.com
+# https://huggingface.co/microsoft/Phi-3-mini-4k-instruct?.com
 
 #AutoTokenizer kikker på model_id og finder den rigtige tokenizertype til Phi-3
 # Den ved hvordan man splitter tekst til tokens, hvilke special tokens |user| |assistant| bruges, og hvordan chat-templaten ser ud (apply_chat_template)
