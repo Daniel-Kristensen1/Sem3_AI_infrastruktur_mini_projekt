@@ -135,9 +135,9 @@
     </div>
 
     <div class="card" style="background:#f9fafb;">
-      <h3>Chat Sessions (REST /v1/chats ...)</h3>
+      <h3>Chat Sessions (REST /chats ...)</h3>
 
-      <h4>Create new chat (POST /v1/chats)</h4>
+      <h4>Create new chat (POST /chats)</h4>
       <label for="create-chat-msg">First user message</label>
       <textarea id="create-chat-msg" placeholder="Hi, let's start a conversation..."></textarea>
       <button id="btn-create-chat" class="primary">Create chat</button>
@@ -145,20 +145,20 @@
       <h4 style="margin-top:1rem;">Work with an existing chat</h4>
       <div class="inline-input">
         <input id="chat-id-current" type="text" placeholder="Chat ID" />
-        <button id="btn-get-chat" class="secondary">GET /v1/chats/{chat_id}</button>
+        <button id="btn-get-chat" class="secondary">GET /chats/{chat_id}</button>
       </div>
 
-      <h4>Continue chat (POST /v1/chats/{chat_id}/messages)</h4>
+      <h4>Continue chat (POST /chats/{chat_id}/messages)</h4>
       <label for="continue-chat-msg">Next user message</label>
       <textarea id="continue-chat-msg" placeholder="Your next message in this chat..."></textarea>
       <button id="btn-continue-chat" class="primary">Send message</button>
 
-      <h4>Edit latest user message (PUT /v1/chats/{chat_id}/messages/latest)</h4>
+      <h4>Edit latest user message (PUT /chats/{chat_id}/messages/latest)</h4>
       <label for="edit-latest-msg">New content for latest user message</label>
       <textarea id="edit-latest-msg" placeholder="New content for the latest user message..."></textarea>
       <button id="btn-edit-latest" class="secondary">Edit latest message</button>
 
-      <h4>Edit specific user message by index (PUT /v1/chats/{chat_id}/messages/{index})</h4>
+      <h4>Edit specific user message by index (PUT /chats/{chat_id}/messages/{index})</h4>
       <div class="inline-input">
         <input id="edit-index" type="number" placeholder="Message index (0-based)" />
       </div>
@@ -166,7 +166,7 @@
       <textarea id="edit-message-msg" placeholder="New content for the selected user message..."></textarea>
       <button id="btn-edit-message" class="secondary">Edit message by index</button>
 
-      <h4>Delete chat (DELETE /v1/chats/{chat_id})</h4>
+      <h4>Delete chat (DELETE /chats/{chat_id})</h4>
       <button id="btn-delete-chat" class="danger">Delete chat</button>
 
       <small>
@@ -356,16 +356,16 @@
       }
     });
 
-    // POST /v1/chats
+    // POST /chats
     btnCreateChat.addEventListener("click", async () => {
       const firstMsg = createChatMsg.value.trim();
       if (!firstMsg) {
         resultBox.textContent = "Please enter the first user message.";
         return;
       }
-      resultBox.textContent = "Calling POST /v1/chats ...";
+      resultBox.textContent = "Calling POST /chats ...";
       try {
-        const resText = await callEndpoint("/v1/chats", {
+        const resText = await callEndpoint("/chats", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: firstMsg })
@@ -383,23 +383,23 @@
       }
     });
 
-    // GET /v1/chats/{chat_id}
+    // GET /chats/{chat_id}
     btnGetChat.addEventListener("click", async () => {
       const chatId = chatIdCurrent.value.trim();
       if (!chatId) {
         resultBox.textContent = "Please enter a Chat ID.";
         return;
       }
-      resultBox.textContent = `Calling GET /v1/chats/${chatId} ...`;
+      resultBox.textContent = `Calling GET /chats/${chatId} ...`;
       try {
-        const res = await callEndpoint(`/v1/chats/${encodeURIComponent(chatId)}`);
+        const res = await callEndpoint(`/chats/${encodeURIComponent(chatId)}`);
         resultBox.textContent = res;
       } catch (err) {
         resultBox.textContent = "Error: " + err.message;
       }
     });
 
-    // POST /v1/chats/{chat_id}/messages
+    // POST /chats/{chat_id}/messages
     btnContinueChat.addEventListener("click", async () => {
       const chatId = chatIdCurrent.value.trim();
       const msg = continueChatMsg.value.trim();
@@ -411,9 +411,9 @@
         resultBox.textContent = "Please enter a message to send.";
         return;
       }
-      resultBox.textContent = `Calling POST /v1/chats/${chatId}/messages ...`;
+      resultBox.textContent = `Calling POST /chats/${chatId}/messages ...`;
       try {
-        const res = await callEndpoint(`/v1/chats/${encodeURIComponent(chatId)}/messages`, {
+        const res = await callEndpoint(`/chats/${encodeURIComponent(chatId)}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: msg })
@@ -424,7 +424,7 @@
       }
     });
 
-    // PUT /v1/chats/{chat_id}/messages/latest
+    // PUT /chats/{chat_id}/messages/latest
     btnEditLatest.addEventListener("click", async () => {
       const chatId = chatIdCurrent.value.trim();
       const newContent = editLatestMsg.value.trim();
@@ -436,9 +436,9 @@
         resultBox.textContent = "Please enter new content for the latest message.";
         return;
       }
-      resultBox.textContent = `Calling PUT /v1/chats/${chatId}/messages/latest ...`;
+      resultBox.textContent = `Calling PUT /chats/${chatId}/messages/latest ...`;
       try {
-        const res = await callEndpoint(`/v1/chats/${encodeURIComponent(chatId)}/messages/latest`, {
+        const res = await callEndpoint(`/chats/${encodeURIComponent(chatId)}/messages/latest`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ content: newContent })
@@ -449,7 +449,7 @@
       }
     });
 
-    // PUT /v1/chats/{chat_id}/messages/{index}
+    // PUT /chats/{chat_id}/messages/{index}
     btnEditMessage.addEventListener("click", async () => {
       const chatId = chatIdCurrent.value.trim();
       const indexStr = editIndexInput.value.trim();
@@ -471,9 +471,9 @@
         resultBox.textContent = "Message index must be a number.";
         return;
       }
-      resultBox.textContent = `Calling PUT /v1/chats/${chatId}/messages/${index} ...`;
+      resultBox.textContent = `Calling PUT /chats/${chatId}/messages/${index} ...`;
       try {
-        const res = await callEndpoint(`/v1/chats/${encodeURIComponent(chatId)}/messages/${index}`, {
+        const res = await callEndpoint(`/chats/${encodeURIComponent(chatId)}/messages/${index}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ content: newContent })
@@ -484,7 +484,7 @@
       }
     });
 
-    // DELETE /v1/chats/{chat_id}
+    // DELETE /chats/{chat_id}
     btnDeleteChat.addEventListener("click", async () => {
       const chatId = chatIdCurrent.value.trim();
       if (!chatId) {
@@ -494,9 +494,9 @@
       if (!confirm(`Are you sure you want to delete chat ${chatId}?`)) {
         return;
       }
-      resultBox.textContent = `Calling DELETE /v1/chats/${chatId} ...`;
+      resultBox.textContent = `Calling DELETE /chats/${chatId} ...`;
       try {
-        const res = await callEndpoint(`/v1/chats/${encodeURIComponent(chatId)}`, {
+        const res = await callEndpoint(`/chats/${encodeURIComponent(chatId)}`, {
           method: "DELETE"
         });
         resultBox.textContent = res;

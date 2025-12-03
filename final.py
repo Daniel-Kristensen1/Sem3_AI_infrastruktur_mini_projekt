@@ -184,7 +184,7 @@ def info():
     }
 
 # CREATE a chat session
-@app.post("/v1/chats", response_model=ChatResource)
+@app.post("/chats", response_model=ChatResource)
 def create_chat(req: CreateChatRequest):
     chat_id = str(uuid4())
 
@@ -199,14 +199,14 @@ def create_chat(req: CreateChatRequest):
     return ChatResource(id=chat_id, messages=DATABASE[chat_id])
 
 # READ a chat session
-@app.get("/v1/chats/{chat_id}", response_model=ChatResource)
+@app.get("/chats/{chat_id}", response_model=ChatResource)
 def get_chat(chat_id: str):
     if chat_id not in DATABASE:
         raise HTTPException(status_code=404, detail="Chat not found")
     return ChatResource(id=chat_id, messages=DATABASE[chat_id])
 
 # UPDATE: add message to chat and get new reply
-@app.post("/v1/chats/{chat_id}/messages", response_model=ChatResource)
+@app.post("/chats/{chat_id}/messages", response_model=ChatResource)
 def add_message(chat_id: str, req: AddMessageRequest):
     if chat_id not in DATABASE:
         raise HTTPException(status_code=404, detail="Chat not found")
@@ -224,7 +224,7 @@ def add_message(chat_id: str, req: AddMessageRequest):
 
     return ChatResource(id=chat_id, messages=DATABASE[chat_id])
 
-@app.put("/v1/chats/{chat_id}/messages/latest", response_model=ChatResource)
+@app.put("/chats/{chat_id}/messages/latest", response_model=ChatResource)
 def edit_latest_user_message(chat_id: str, req: EditLatestRequest):
     if chat_id not in DATABASE:
         raise HTTPException(404, "Chat not found")
@@ -259,7 +259,7 @@ def edit_latest_user_message(chat_id: str, req: EditLatestRequest):
 
     return ChatResource(id=chat_id, messages=messages)
 
-@app.put("/v1/chats/{chat_id}/messages/{index}", response_model=ChatResource)
+@app.put("/chats/{chat_id}/messages/{index}", response_model=ChatResource)
 def edit_message(chat_id: str, index: int, req: ReplaceMessageRequest):
     if chat_id not in DATABASE:
         raise HTTPException(404, "Chat not found")
@@ -295,7 +295,7 @@ def edit_message(chat_id: str, index: int, req: ReplaceMessageRequest):
     return ChatResource(id=chat_id, messages=messages)
 
 # DELETE a chat session
-@app.delete("/v1/chats/{chat_id}")
+@app.delete("/chats/{chat_id}")
 def delete_chat(chat_id: str):
     if chat_id not in DATABASE:
         raise HTTPException(status_code=404, detail="Chat not found")
